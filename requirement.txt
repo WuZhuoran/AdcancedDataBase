@@ -1,0 +1,11 @@
+nose
+profilehooks
+numpy
+memory_profiler
+psutil
+tqdm
+joblib
+redis
+bottle
+scipy
+pandas
