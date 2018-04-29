@@ -94,6 +94,6 @@ if __name__ == '__main__':
     Test for GEO Utils Functions.
     """
     print(haversine_distance(38.9059894, -77.0725931, 38.9079732, -77.0739989))
-    print(euclidean_distance(38.9059894, -77.0725931, 38.9079732, -77.0739989))
+    print(euclidean_distance(33.3306902, -111.9785992, 33.3, -111.9))
     print(get_geo_offsets(12, 10.0))
     print(get_random_float(-180, 180))
