@@ -22,5 +22,5 @@ connection = pymysql.connect(host='localhost',
                              cursorclass=pymysql.cursors.DictCursor)
 
 if __name__ == '__main__':
-    select_by_lat_lon(33.3306902, -111.9785992, 0.4)
+    select_by_lat_lon(35.1899295, -80.8057352, 0.4)
 

@@ -1,8 +1,7 @@
-import pandas as pd
-from rtree import index
+from collections import defaultdict
+from math import sqrt
+import rtree.index
 
-BUSSINESS_FILE = 'yelp_business.csv'
-business = pd.read_csv("../../data/" + BUSSINESS_FILE)
+points = [(5, 4), (3, 1), (6, 3), (2, 8), (7, 8), (8, 1), (2, 3), (0, 4), (3, 7), (6, 4)]
 
-
-
+idx = rtree.index.Rtree()
