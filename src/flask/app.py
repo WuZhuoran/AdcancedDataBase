@@ -1,10 +1,10 @@
 # coding: utf-8
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, request
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
 import service_select_by_id
-import json
+import service_select_by_lat_lon
 
 app = Flask(__name__, template_folder="templates")
 
@@ -17,6 +17,16 @@ GoogleMaps(app, key="AIzaSyAPIvyw4rfushMMOVuVHLwCtct-eIIbc9o")
 
 
 @app.route("/")
+def index():
+    return render_template('search1.html')
+
+
+@app.route("/location")
+def index():
+    return render_template('search2.html')
+
+
+@app.route("/mapview")
 def mapview():
     mymap = Map(
         identifier="view-side",  # for DOM element
@@ -396,6 +406,58 @@ def get_service(id):
             'lng': res['longitude'],
             'infobox': 'This is a ID ' + str(res['ID'])
         }]
+    )
+
+    return render_template(
+        'single.html',
+        infoboxmap=infoboxmap
+    )
+
+
+@app.route('/search/', methods=['GET'])
+def get_service_lat_lon():
+    bar = request.args.to_dict()
+
+    lat = bar['lat']
+    lon = bar['lon']
+    rad = bar['rad']
+    res = service_select_by_lat_lon.select_by_lat_lon(lat, lon, rad)
+
+    marker = []
+
+    origin_point = dict()
+    origin_point['icon'] = '//maps.google.com/mapfiles/ms/icons/blue-dot.png'
+    origin_point['lat'] = str(float(bar['lat']) + 0.00001)
+    origin_point['lng'] = bar['lon']
+    origin_point['infobox'] = 'This is the Point you search. '
+
+    marker.append(origin_point)
+
+    for i in range(res['number']):
+        mark = dict()
+        mark['icon'] = '//maps.google.com/mapfiles/ms/icons/green-dot.png'
+        mark['lat'] = res['detail'][i]['latitude']
+        mark['lng'] = res['detail'][i]['longitude']
+        mark['infobox'] = 'This is <strong>' \
+                          + str(res['detail'][i]['name']) \
+                          + '</strong><br> <strong>Category</strong>: ' \
+                          + str(res['detail'][i]['categories'])
+        marker.append(mark)
+
+    infoboxmap = Map(
+        identifier="infoboxmap",
+        zoom=30,
+        style=(
+            "height:100%;"
+            "width:100%;"
+            "top:0;"
+            "left:0;"
+            "position:absolute;"
+            "z-index:200;"
+        ),
+        lat=lat,
+        lng=lon,
+        markers=marker
     )
 
     return render_template(
