@@ -154,7 +154,7 @@
 </head>
 <body>
 <div class="container">
-    <form id="contact" action="" method="post">
+    <div id="contact">
         <h3>Advanced Database</h3>
         <h4>Search based on Latitude and Longitude</h4>
         <fieldset>
@@ -167,11 +167,11 @@
             <input id="rad" placeholder="Radius" type="text" tabindex="3" required>
         </fieldset>
         <fieldset>
-            <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+            <button name="submit" type="submit" id="contact-submit">Submit</button>
         </fieldset>
         <p class="copyright">Designed by <a href="http://oliverwu.georgetown.domains/" target="_blank" title="OliverWu">Zhuoran
             Wu</a></p>
-    </form>
+    </div>
 </div>
 
 <script>
@@ -180,7 +180,7 @@
         var lon = document.getElementById('lon').value;
         var rad = document.getElementById('rad').value;
 
-        $(location).attr('href', 'http://127.0.0.1:5000/search/?lat=' + lat + '&lon=' + lon + '&rad=' + rad);
+        $(location).attr('href','http://127.0.0.1:5000/search/?lat=' + lat + '&lon=' + lon + '&rad=' + rad);
     });
 </script>
 </body>

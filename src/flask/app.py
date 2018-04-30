@@ -5,6 +5,7 @@ from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
 import service_select_by_id
 import service_select_by_lat_lon
+import service_select_by_location
 
 app = Flask(__name__, template_folder="templates")
 
@@ -22,7 +23,7 @@ def index():
 
 
 @app.route("/location")
-def index():
+def locate():
     return render_template('search2.html')
 
 
@@ -457,6 +458,57 @@ def get_service_lat_lon():
         ),
         lat=lat,
         lng=lon,
+        markers=marker
+    )
+
+    return render_template(
+        'single.html',
+        infoboxmap=infoboxmap
+    )
+
+
+@app.route('/locate/', methods=['GET'])
+def get_service_location():
+    bar = request.args.to_dict()
+
+    place = bar['place']
+    rad = bar['rad']
+    res = service_select_by_location.select_by_location(place, rad)
+
+    marker = []
+
+    origin_point = dict()
+    origin_point['icon'] = '//maps.google.com/mapfiles/ms/icons/blue-dot.png'
+    origin_point['lat'] = str(float(res['location']['latitide']) + 0.00001)
+    origin_point['lng'] = res['location']['longitude']
+    origin_point['infobox'] = 'This is the Point you search. '
+
+    marker.append(origin_point)
+
+    for i in range(res['number']):
+        mark = dict()
+        mark['icon'] = '//maps.google.com/mapfiles/ms/icons/green-dot.png'
+        mark['lat'] = res['detail'][i]['latitude']
+        mark['lng'] = res['detail'][i]['longitude']
+        mark['infobox'] = 'This is <strong>' \
+                          + str(res['detail'][i]['name']) \
+                          + '</strong><br> <strong>Category</strong>: ' \
+                          + str(res['detail'][i]['categories'])
+        marker.append(mark)
+
+    infoboxmap = Map(
+        identifier="infoboxmap",
+        zoom=30,
+        style=(
+            "height:100%;"
+            "width:100%;"
+            "top:0;"
+            "left:0;"
+            "position:absolute;"
+            "z-index:200;"
+        ),
+        lat=res['location']['latitide'],
+        lng=res['location']['longitude'],
         markers=marker
     )
 
