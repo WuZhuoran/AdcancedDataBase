@@ -6,6 +6,8 @@ from flask_googlemaps import Map, icons
 import service_select_by_id
 import service_select_by_lat_lon
 import service_select_by_location
+import service_select_by_lat_lon_star
+import service_select_by_location_star
 
 app = Flask(__name__, template_folder="templates")
 
@@ -24,7 +26,7 @@ def index():
 
 @app.route("/location")
 def locate():
-    return render_template('search2.html')
+    return render_template('search3.html')
 
 
 @app.route("/mapview")
@@ -422,7 +424,9 @@ def get_service_lat_lon():
     lat = bar['lat']
     lon = bar['lon']
     rad = bar['rad']
-    res = service_select_by_lat_lon.select_by_lat_lon(lat, lon, rad)
+    star = bar['star']
+    price = bar['price']
+    res = service_select_by_lat_lon_star.select_by_lat_lon_star(lat, lon, rad, star)
 
     marker = []
 
@@ -442,7 +446,11 @@ def get_service_lat_lon():
         mark['infobox'] = 'This is <strong>' \
                           + str(res['detail'][i]['name']) \
                           + '</strong><br> <strong>Category</strong>: ' \
-                          + str(res['detail'][i]['categories'])
+                          + str(res['detail'][i]['categories']) \
+                          + '</strong><br> <strong>Stars</strong>: ' \
+                          + str(res['detail'][i]['stars']) \
+                          + '</strong><br> <strong>Price</strong>: ' \
+                          + str(int(price) * "$")
         marker.append(mark)
 
     infoboxmap = Map(
@@ -473,7 +481,9 @@ def get_service_location():
 
     place = bar['place']
     rad = bar['rad']
-    res = service_select_by_location.select_by_location(place, rad)
+    star = bar['star']
+    price = bar['price']
+    res = service_select_by_location_star.select_by_location(place, rad, star)
 
     marker = []
 
@@ -493,7 +503,11 @@ def get_service_location():
         mark['infobox'] = 'This is <strong>' \
                           + str(res['detail'][i]['name']) \
                           + '</strong><br> <strong>Category</strong>: ' \
-                          + str(res['detail'][i]['categories'])
+                          + str(res['detail'][i]['categories']) \
+                          + '</strong><br> <strong>Stars</strong>: ' \
+                          + str(res['detail'][i]['stars']) \
+                          + '</strong><br> <strong>Price</strong>: ' \
+                          + str(int(price) * "$")
         marker.append(mark)
 
     infoboxmap = Map(
