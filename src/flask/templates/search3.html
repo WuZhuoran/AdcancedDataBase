@@ -193,18 +193,15 @@
     </style>
 </head>
 <body>
-<a href="http://127.0.0.1:5000/location" class="previous">&laquo; Previous</a>
-<a href="http://127.0.0.1:5000/location" class="next">Next &raquo;</a>
+<a href="http://127.0.0.1:5000/" class="previous">&laquo; Previous</a>
+<a href="http://127.0.0.1:5000/" class="next">Next &raquo;</a>
 
 <div class="container">
     <div id="contact">
         <h3>Food Search</h3>
-        <h4>Query based on Latitude and Longitude</h4>
+        <h4>Query based on Location</h4>
         <fieldset>
-            <input id="lat" placeholder="Latitude" type="text" tabindex="1" required autofocus>
-        </fieldset>
-        <fieldset>
-            <input id="lon" placeholder="Longitude" type="text" tabindex="2" required>
+            <input id="location" placeholder="Location" type="text" tabindex="1" required autofocus>
         </fieldset>
         <fieldset>
             <input id="rad" placeholder="Radius" type="text" tabindex="3" required>
@@ -236,13 +233,13 @@
 
 <script>
     $("#contact-submit").click(function () {
-        var lat = document.getElementById('lat').value;
-        var lon = document.getElementById('lon').value;
+        var locate = document.getElementById('location').value;
         var rad = document.getElementById('rad').value;
         var star = document.getElementById("star").value;
         var price = document.getElementById("price").value;
+        var url = 'http://127.0.0.1:5000/locate/?place=' + String(encodeURIComponent(locate)) + '&rad=' + rad + '&star=' + star + '&price=' + price;
 
-        $(location).attr('href', 'http://127.0.0.1:5000/search/?lat=' + lat + '&lon=' + lon + '&rad=' + rad + '&star=' + star + '&price=' + price);
+        $(location).attr('href', url);
     });
 </script>
 </body>
