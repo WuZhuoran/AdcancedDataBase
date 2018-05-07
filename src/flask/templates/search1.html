@@ -219,12 +219,20 @@
             </select>
         </fieldset>
         <fieldset>
+            <input id="starWeightRange" type="range" name="rangeInput" min="0" max="1" step="0.1" onchange="updateStarInput(this.value);" style="width: 50%; float:left;" value="0">
+            <input type="text" id="starWeight" value="" placeholder="Star Weight" style="width: 50%; float:left;">
+        </fieldset>
+        <fieldset>
             <select id="price" placeholder="Price" type="text" tabindex="3" required>
                 <option value="1">$</option>
                 <option value="2">$$</option>
                 <option value="3">$$$</option>
                 <option value="4">$$$$</option>
             </select>
+        </fieldset>
+        <fieldset>
+            <input id="priceWeightRange" type="range" name="rangeInput" min="0" max="1" step="0.1" onchange="updateWeightInput(this.value);" style="width: 50%; float:left;" value="0">
+            <input type="text" id="priceWeight" value="" placeholder="Price Weight" style="width: 50%; float:left;">
         </fieldset>
         <fieldset>
             <button name="submit" type="submit" id="contact-submit">Submit</button>
@@ -235,14 +243,29 @@
 </div>
 
 <script>
+    function updateStarInput(val) {
+        document.getElementById('starWeight').value=val;
+        document.getElementById('priceWeight').value=1 - val;
+        document.getElementById('priceWeightRange').value=1 - val;
+    }
+
+    function updateWeightInput(val) {
+        document.getElementById('priceWeight').value=val;
+        document.getElementById('starWeight').value=1 - val;
+        document.getElementById('starWeightRange').value=1 - val;
+    }
+</script>
+<script>
     $("#contact-submit").click(function () {
         var lat = document.getElementById('lat').value;
         var lon = document.getElementById('lon').value;
         var rad = document.getElementById('rad').value;
         var star = document.getElementById("star").value;
         var price = document.getElementById("price").value;
+        var starWeight = document.getElementById("starWeightRange").value;
+        var priceWeight = document.getElementById("priceWeightRange").value;
 
-        $(location).attr('href', 'http://127.0.0.1:5000/search/?lat=' + lat + '&lon=' + lon + '&rad=' + rad + '&star=' + star + '&price=' + price);
+        $(location).attr('href', 'http://127.0.0.1:5000/search/?lat=' + lat + '&lon=' + lon + '&rad=' + rad + '&star=' + star + '&price=' + price + '&starweight=' + starWeight + '&priceweight=' + priceWeight);
     });
 </script>
 </body>

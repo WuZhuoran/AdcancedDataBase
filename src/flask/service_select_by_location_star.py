@@ -16,7 +16,7 @@ connection = pymysql.connect(host='localhost',
 def select_by_lat_lon_location(latitude, longitude, radius, star):
 
     with connection.cursor() as cursor:
-        sql = """SELECT *,(6371 * 2 * ASIN(SQRT(POWER(SIN(('%s' - abs(latitude)) * pi()/180 / 2),2) + COS('%s' * pi()/180 ) * COS(abs(latitude) *pi()/180) * POWER(SIN(('%s' - longitude) *pi()/180 / 2), 2) ))) AS distance FROM business WHERE stars = '%s' HAVING distance < '%s' ORDER BY distance LIMIT 5;""" % (
+        sql = """SELECT *,(6371 * 2 * ASIN(SQRT(POWER(SIN(('%s' - abs(latitude)) * pi()/180 / 2),2) + COS('%s' * pi()/180 ) * COS(abs(latitude) *pi()/180) * POWER(SIN(('%s' - longitude) *pi()/180 / 2), 2) ))) AS distance FROM business WHERE stars = '%s' HAVING distance < '%s' ORDER BY distance LIMIT 20;""" % (
             latitude, latitude, longitude, star, radius)
         number = cursor.execute(sql)
         res = dict()
@@ -36,7 +36,7 @@ def select_by_lat_lon_location(latitude, longitude, radius, star):
             single['categories'] = result['categories']
             single['stars'] = result['stars']
             res['detail'].append(single)
-
+        print(res)
         return res
 
 
@@ -48,6 +48,6 @@ def select_by_location(location, rad, star):
 
 
 if __name__ == '__main__':
-    select_by_lat_lon_location(33.3306902, -111.9785992, 0.4, 4)
-    select_by_location("Los Angeles", 1000000, 5)
+    # select_by_lat_lon_location(33.3306902, -111.9785992, 0.4, 4)
+    select_by_location("Chicago", 500, 5)
 

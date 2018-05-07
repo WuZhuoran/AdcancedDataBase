@@ -426,6 +426,8 @@ def get_service_lat_lon():
     rad = bar['rad']
     star = bar['star']
     price = bar['price']
+    starweight = bar['starweight']
+    priceweight = bar['priceweight']
     res = service_select_by_lat_lon_star.select_by_lat_lon_star(lat, lon, rad, star)
 
     marker = []

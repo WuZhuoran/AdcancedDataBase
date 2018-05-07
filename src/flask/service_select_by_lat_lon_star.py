@@ -14,7 +14,7 @@ connection = pymysql.connect(host='localhost',
 def select_by_lat_lon_star(latitude, longitude, radius, stars):
 
     with connection.cursor() as cursor:
-        sql = """SELECT *,(6371 * 2 * ASIN(SQRT(POWER(SIN(('%s' - abs(latitude)) * pi()/180 / 2),2) + COS('%s' * pi()/180 ) * COS(abs(latitude) *pi()/180) * POWER(SIN(('%s' - longitude) *pi()/180 / 2), 2) ))) AS distance FROM business WHERE stars = '%s' HAVING distance < '%s' ORDER BY distance LIMIT 5;""" % (
+        sql = """SELECT *,(6371 * 2 * ASIN(SQRT(POWER(SIN(('%s' - abs(latitude)) * pi()/180 / 2),2) + COS('%s' * pi()/180 ) * COS(abs(latitude) *pi()/180) * POWER(SIN(('%s' - longitude) *pi()/180 / 2), 2) ))) AS distance FROM business WHERE stars = '%s' HAVING distance < '%s' ORDER BY distance LIMIT 20;""" % (
             latitude, latitude, longitude, stars, radius)
         number = cursor.execute(sql)
         res = dict()
