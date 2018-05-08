@@ -1,7 +1,8 @@
-import select_without_tree
-import pandas as pd
 import time
 
+import pandas as pd
+
+import select_without_tree
 
 data_list = []
 time_list = []

@@ -1,5 +1,5 @@
-import random
 from time import time
+
 import pandas as pd
 
 
