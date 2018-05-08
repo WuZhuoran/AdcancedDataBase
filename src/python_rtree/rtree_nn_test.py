@@ -5,7 +5,7 @@ from python_rtree import performance_test
 from rtree_nn import *
 
 
-def r_base_test(min=15, max=50, length=-1):
+def r_base_test(min=1, max=10, length=-1):
     def data_generate(path, length):
         """
         Data Header: business_id,name,stars,categories,latitude,longitude
@@ -69,15 +69,30 @@ def r_base_test(min=15, max=50, length=-1):
 
     # --------- use performance_test get the avg search time ---- #
     print("Min = " + str(min) + "; Max = " + str(max))
-    print("Time for random 100 querys in R-tree:")
-    print(performance_test.performance_test(root, [10, 150], 200))
+    avg_time, sum_time = performance_test.performance_test(root, [10, 150], 1)
+    print("Avg Time for random 1 querys in Naive Way:")
+    print(avg_time)
+    print("Total Time for random 1 querys in Naive Way:")
+    print(sum_time)
 
-    # for i in range(100000):
-    #     root = Delete(root, n[i])
-    # t3 = time()
-    # print ('Deleting ...')
-    # print (t3 - t2)
+    avg_time, sum_time = performance_test.performance_test(root, [10, 150], 10)
+    print("Avg Time for random 10 querys in Naive Way:")
+    print(avg_time)
+    print("Total Time for random 10 querys in Naive Way:")
+    print(sum_time)
+
+    avg_time, sum_time = performance_test.performance_test(root, [10, 150], 200)
+    print("Avg Time for random 200 querys in Naive Way:")
+    print(avg_time)
+    print("Total Time for random 200 querys in Naive Way:")
+    print(sum_time)
+
+    # avg_time, sum_time = performance_test.performance_test(root, [10, 150], 10000)
+    # print("Avg Time for random 10000 querys in Naive Way:")
+    # print(avg_time)
+    # print("Total Time for random 10000 querys in Naive Way:")
+    # print(sum_time)
 
 
 if __name__ == "__main__":
-    r_base_test()
+    r_base_test(min=1, max=25)

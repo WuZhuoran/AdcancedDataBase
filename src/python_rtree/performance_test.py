@@ -14,7 +14,7 @@ def performance_test(tree_root, search_range, test_num):
     time_list = []
     data_list = []
 
-    sample = pd.read_csv('../../data/sample.csv', header=None)
+    sample = pd.read_csv('../../data/sample_10000.csv', header=None, nrows=test_num)
 
     for index, row in sample.iterrows():
         data_list.append([row[0], row[1]])
@@ -32,10 +32,10 @@ def performance_test(tree_root, search_range, test_num):
 
         time_list.append(end_time - start_time)
 
-        node_num = len(result)
-        # print(node_num)
+        sum_time = sum(time_list)
+        avg_time = sum_time / len(time_list)
 
-    return sum(time_list) / len(time_list)
+    return avg_time, sum_time
 
 
 if __name__ == "__main__":
